@@ -1,97 +1,153 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📦 EntregasApp
 
-# Getting Started
+**EntregasApp** é um aplicativo mobile desenvolvido em **React Native** para gerenciamento de entregas de forma rápida e eficiente. Com uma interface moderna e suporte a temas claro/escuro, o app oferece uma experiência agradável e personalizável.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## ✨ Funcionalidades
 
-## Step 1: Start Metro
+- 🚀 **Splash Screen animada** — tela de inicialização com a logomarca do app
+- 🌗 **Tema claro/escuro** — alternância entre os modos light e dark com um toque
+- 📱 **Interface responsiva** — adaptada para diferentes tamanhos de tela
+- 🧭 **Navegação nativa** — transições suaves entre telas com React Navigation
+- 🎨 **Design moderno** — paleta de cores cuidadosamente selecionada
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📋 Pré-requisitos
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Antes de começar, verifique se você possui os seguintes requisitos:
 
-```sh
-# Using npm
+- **Node.js** >= 22.11.0
+- **npm** ou **yarn**
+- **React Native CLI** (versão 20.1.0)
+- **Android Studio** (para desenvolvimento Android)
+- **Xcode** (para desenvolvimento iOS — somente macOS)
+- **CocoaPods** (para dependências iOS)
+
+> 💡 Consulte o guia oficial [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) para configurar seu ambiente de desenvolvimento.
+
+## 🔧 Instalação
+
+Siga os passos abaixo para configurar o projeto localmente:
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/entregasapp.git
+
+# Acesse o diretório do projeto
+cd EntregasApp
+
+# Instale as dependências
+npm install
+# ou
+yarn install
+
+# iOS: instale as dependências do CocoaPods (apenas na primeira vez ou após atualizações)
+cd ios && bundle install && bundle exec pod install && cd ..
+```
+
+## 🚀 Executando o app
+
+### Iniciar o Metro Bundler
+
+O **Metro** é o bundler JavaScript do React Native. Para iniciá-lo:
+
+```bash
 npm start
-
-# OR using Yarn
+# ou
 yarn start
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
 ### Android
 
-```sh
-# Using npm
-npm run android
+Com o Metro rodando, execute em outro terminal:
 
-# OR using Yarn
+```bash
+npm run android
+# ou
 yarn android
 ```
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
+# ou
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+> ✅ Se tudo estiver configurado corretamente, o app será exibido no emulador/dispositivo conectado.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## 📁 Estrutura do projeto
 
-## Step 3: Modify your app
+```
+EntregasApp/
+├── android/                  # Código nativo Android
+├── ios/                      # Código nativo iOS
+├── logos/                    # Recursos de imagem (logotipos)
+│   └── logoSplash.png
+├── src/
+│   ├── navigation/
+│   │   └── AppNavigator.tsx  # Configuração de navegação (Stack)
+│   ├── screens/
+│   │   ├── SplashScreen.tsx  # Tela de splash inicial
+│   │   └── HomeScreen.tsx    # Tela principal do app
+│   └── theme/
+│       ├── colors.ts         # Paleta de cores (claro/escuro)
+│       └── ThemeContext.tsx   # Contexto para alternância de temas
+├── App.tsx                   # Componente raiz do app
+├── index.js                  # Ponto de entrada do React Native
+├── package.json
+└── README.md
+```
 
-Now that you have successfully run the app, let's make changes!
+## 🎨 Personalização
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Cores
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+As cores do aplicativo podem ser facilmente personalizadas no arquivo `src/theme/colors.ts`:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+```typescript
+// Cores do tema claro
+export const lightColors = {
+  primary: '#4F46E5',
+  background: '#F9FAFB',
+  surface: '#FFFFFF',
+  text: '#111827',
+  // ...
+};
 
-## Congratulations! :tada:
+// Cores do tema escuro
+export const darkColors = {
+  primary: '#818CF8',
+  background: '#111827',
+  surface: '#1F2937',
+  text: '#F9FAFB',
+  // ...
+};
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+### Tema
 
-### Now what?
+O contexto de tema (`ThemeContext.tsx`) gerencia automaticamente o tema com base na preferência do sistema, permitindo também a alternância manual pelo botão na tela inicial.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## 🛠️ Tecnologias utilizadas
 
-# Troubleshooting
+| Tecnologia                  | Versão   | Finalidade                        |
+|-----------------------------|----------|-----------------------------------|
+| React Native                | 0.86.2   | Framework mobile                  |
+| React                       | 19.2.3   | Biblioteca UI                     |
+| TypeScript                  | ^5.8.3   | Tipagem estática                  |
+| @react-navigation/native    | ^7.3.14  | Navegação entre telas             |
+| @react-navigation/native-stack | ^7.18.6 | Navegação nativa em pilha       |
+| react-native-safe-area-context | ^5.5.2 | Áreas seguras do dispositivo      |
+| lucide-react-native         | ^1.28.0  | Ícones                            |
+| react-native-svg            | ^15.15.5 | Renderização SVG (ícones)         |
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## 📄 Licença
 
-# Learn More
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-To learn more about React Native, take a look at the following resources:
+---
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+<p align="center">
+  Desenvolvido com ❤️ usando React Native
+</p>
+
