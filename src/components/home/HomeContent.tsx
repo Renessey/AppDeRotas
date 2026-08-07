@@ -1,64 +1,67 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Download, X } from 'lucide-react-native';
+import { Text, StyleSheet, View } from 'react-native';
+import { Sparkles } from 'lucide-react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
+import HeroCard from './HeroCard';
+import InfoCard from './InfoCard';
+import FeatureCarousel from './FeatureCarousel';
 
 type HomeContentProps = {
-  isSelectingArea: boolean;
-  isDownloading: boolean;
   hasPermission: boolean;
-  onToggleSelectArea: () => void;
+  deliveryCount: number;
+  nextDeliveryLabel: string;
+  nextEtaMinutes: number | null;
 };
 
 const HomeContent = ({
-  isSelectingArea,
-  isDownloading,
   hasPermission,
-  onToggleSelectArea,
+  deliveryCount,
+  nextDeliveryLabel,
+  nextEtaMinutes,
 }: HomeContentProps) => {
   const { colors } = useAppTheme();
 
   return (
     <View style={styles.content}>
-      <Text style={[styles.welcomeTitle, { color: colors.text }]}>
-        Bem-vindo(a) ao EntregasApp!
-      </Text>
+      <View style={styles.contentInner}>
+        <HeroCard
+          title="Dashboard de entregas"
+          subtitle="Resumo da operação, próximas rotas e importação de planilhas em um só lugar."
+        />
 
-      <Text style={[styles.welcomeSubtitle, { color: colors.textSecondary }]}>
-        Gerencie suas entregas de forma rápida e eficiente.
-      </Text>
+        <View style={styles.statsRow}>
+          <InfoCard title="Entregas salvas" value={String(deliveryCount)} accent={colors.primary} />
+          <InfoCard title="Próxima rota" value={nextEtaMinutes !== null ? `${nextEtaMinutes} min` : '—'} accent={colors.notification} />
+        </View>
 
-      {/* Ações */}
-      <TouchableOpacity
-        style={[
-          styles.downloadAreaButton,
-          {
-            backgroundColor: isSelectingArea
-              ? colors.notification
-              : colors.primary,
-          },
-        ]}
-        onPress={onToggleSelectArea}
-        activeOpacity={0.8}
-        disabled={isDownloading}
-      >
-        {isSelectingArea ? (
-          <X size={18} color="#FFFFFF" />
-        ) : (
-          <Download size={18} color="#FFFFFF" />
+        <View style={[styles.dashboardCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <View style={styles.dashboardHeader}>
+            <View style={[styles.dashboardIcon, { backgroundColor: colors.primary + '16' }]}>
+              <Sparkles size={16} color={colors.primary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.dashboardTitle, { color: colors.text }]}>Resumo do dia</Text>
+              <Text style={[styles.dashboardText, { color: colors.textSecondary }]}>
+                {nextDeliveryLabel || 'Aguardando próximas entregas para montar a rota.'}
+              </Text>
+            </View>
+          </View>
+
+          <Text style={[styles.dashboardMeta, { color: colors.textSecondary }]}>
+            {deliveryCount > 0
+              ? `${deliveryCount} entregas registradas e prontas para acompanhar.`
+              : 'Ainda não há entregas salvas.'}
+          </Text>
+        </View>
+
+        <FeatureCarousel />
+
+        {!hasPermission && (
+          <Text style={[styles.permissionHint, { color: colors.textSecondary }]}>
+            Permita o acesso à localização para otimizar a próxima rota.
+          </Text>
         )}
-        <Text style={styles.downloadAreaButtonText}>
-          {isSelectingArea
-            ? 'Cancelar seleção'
-            : 'Selecionar área p/ offline'}
-        </Text>
-      </TouchableOpacity>
-
-      {!hasPermission && (
-        <Text style={[styles.permissionHint, { color: colors.textSecondary }]}>
-          Permita o acesso à localização para exibir sua posição no mapa.
-        </Text>
-      )}
+      </View>
     </View>
   );
 };
@@ -66,54 +69,55 @@ const HomeContent = ({
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  contentInner: {
     alignItems: 'center',
-    paddingHorizontal: 24,
+    gap: 14,
   },
-
-  welcomeTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
+  statsRow: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 10,
   },
-
-  welcomeSubtitle: {
-    fontSize: 15,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 24,
+  dashboardCard: {
+    width: '100%',
+    padding: 16,
+    borderRadius: 18,
+    borderWidth: StyleSheet.hairlineWidth,
+    gap: 10,
   },
-
-  downloadAreaButton: {
+  dashboardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    borderRadius: 14,
-    gap: 8,
-    width: '100%',
-
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 3,
+    gap: 10,
   },
-
-  downloadAreaButtonText: {
-    color: '#FFFFFF',
+  dashboardIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dashboardTitle: {
     fontSize: 15,
     fontWeight: '700',
+    marginBottom: 2,
   },
-
+  dashboardText: {
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  dashboardMeta: {
+    fontSize: 13,
+    lineHeight: 20,
+  },
   permissionHint: {
     fontSize: 12,
     textAlign: 'center',
-    marginTop: 12,
+    marginTop: 4,
   },
 });
 
 export default HomeContent;
-

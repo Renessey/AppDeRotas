@@ -11,13 +11,14 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ArrowLeft, Download, Trash2, HardDrive, Map as MapIcon } from 'lucide-react-native';
+import { Download, Trash2, HardDrive, Map as MapIcon } from 'lucide-react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppTheme } from '../theme/ThemeContext';
 import {
   InstalledMap,
   formatBytes,
 } from '../map/offlineMaps';
+import BottomNavBar, { BottomTabKey } from '../components/navigation/BottomNavBar';
 import {
   deleteMap,
   getInstalledMaps,
@@ -63,6 +64,25 @@ const OfflineMapsScreen = ({ navigation }: OfflineMapsScreenProps) => {
     setRefreshing(true);
     loadMaps();
   }, [loadMaps]);
+
+  const handleBottomNav = useCallback((tab: BottomTabKey) => {
+    if (tab === 'Home') {
+      navigation.navigate('Home');
+      return;
+    }
+
+    if (tab === 'Deliveries') {
+      navigation.navigate('Deliveries');
+      return;
+    }
+
+    if (tab === 'Map') {
+      navigation.navigate('Map');
+      return;
+    }
+
+    navigation.navigate('OfflineMaps');
+  }, [navigation]);
 
   const handleDelete = useCallback(
     (map: InstalledMap) => {
@@ -162,15 +182,7 @@ const OfflineMapsScreen = ({ navigation }: OfflineMapsScreenProps) => {
           { paddingTop: insets.top + 8, borderBottomColor: colors.border },
         ]}
       >
-        <TouchableOpacity
-          style={[styles.backButton, { backgroundColor: colors.surface }]}
-          onPress={() => navigation.goBack()}
-          activeOpacity={0.7}
-        >
-          <ArrowLeft size={22} color={colors.text} />
-        </TouchableOpacity>
-
-        <Text style={[styles.headerTitle, { color: colors.text }]}>
+<Text style={[styles.headerTitle, { color: colors.text }]}>
           Mapas Offline
         </Text>
 
@@ -226,7 +238,7 @@ const OfflineMapsScreen = ({ navigation }: OfflineMapsScreenProps) => {
           data={maps}
           keyExtractor={item => item.id}
           renderItem={renderItem}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[styles.listContent, { paddingBottom: insets.bottom + 20 }]}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -237,6 +249,8 @@ const OfflineMapsScreen = ({ navigation }: OfflineMapsScreenProps) => {
           }
         />
       )}
+
+      <BottomNavBar activeTab="OfflineMaps" onNavigate={handleBottomNav} />
     </View>
   );
 };
@@ -255,15 +269,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  headerTitle: {
+headerTitle: {
     fontSize: 18,
     fontWeight: '600',
   },

@@ -12,11 +12,9 @@ const SelectAreaOverlay = ({ onCancel, onConfirm }: SelectAreaOverlayProps) => {
   const { colors } = useAppTheme();
 
   return (
-    <View style={styles.absoluteFill}>
+    <View style={styles.absoluteFill} pointerEvents="box-none">
       <View style={[styles.card, { backgroundColor: colors.surface }]}>
-        <Text style={[styles.title, { color: colors.text }]}>
-          Selecione a área
-        </Text>
+        <Text style={[styles.title, { color: colors.text }]}>Selecione a área</Text>
         <Text style={[styles.hint, { color: colors.textSecondary }]}>
           Ajuste o mapa até enquadrar a região desejada.
         </Text>
@@ -24,10 +22,10 @@ const SelectAreaOverlay = ({ onCancel, onConfirm }: SelectAreaOverlayProps) => {
           <TouchableOpacity
             style={[styles.cancel, { borderColor: colors.border }]}
             onPress={onCancel}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
-            <X size={16} color={colors.text} />
-            <Text style={[styles.cancelText, { color: colors.text }]}>
+            <X size={16} color={colors.textSecondary} />
+            <Text style={[styles.cancelText, { color: colors.textSecondary }]}>
               Cancelar
             </Text>
           </TouchableOpacity>
@@ -56,18 +54,20 @@ const styles = StyleSheet.create({
 
   card: {
     position: 'absolute',
-    bottom: 12,
-    left: 12,
-    right: 12,
-    borderRadius: 16,
+    bottom: 20,
+    left: 16,
+    right: 16,
+    maxWidth: 380,
+    alignSelf: 'center',
+    width: '100%',
+    borderRadius: 18,
     padding: 16,
-    gap: 4,
-
+    gap: 6,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    elevation: 8,
   },
 
   title: {
@@ -82,9 +82,9 @@ const styles = StyleSheet.create({
 
   actions: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 8,
-    marginTop: 12,
+    justifyContent: 'center',
+    gap: 10,
+    marginTop: 8,
   },
 
   cancel: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 12,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     gap: 6,
   },
 
@@ -119,4 +119,3 @@ const styles = StyleSheet.create({
 });
 
 export default SelectAreaOverlay;
-

@@ -1,11 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-
-/**
- * Mocks do MapLibre para testes (Jest).
- * Os componentes nativos do MapLibre não estão disponíveis no ambiente
- * de testes do Node, então renderizamos Views simples.
- */
+import { View } from 'react-native';
 
 export const Map = ({ children, style }: any) => (
   <View style={style}>{children}</View>
@@ -103,4 +97,3 @@ export default {
   NetworkManager,
   useCurrentPosition,
 };
-
